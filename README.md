@@ -9,10 +9,11 @@ Reproduction statique de **184 pages** de capacademy.fr, avec l’identité **UF
 - `assets/remote/` : images et ressources téléchargées depuis le site d’origine.
 - `assets/logo-ufa-campus.png` et `icon-cap.png` : logo fourni, utilisé pour le header, le footer et le favicon.
 - `manifest.webmanifest` : manifeste PWA local au nom de UFA Campus.
-- `site-fixes.css` et `site.js` : ajustements et interactions (menus déroulants avec délai de fermeture et pont de survol, menu mobile, diaporama, carrousels, FAQ, widget de contact au survol et au clic avec priorité sur le bouton bleu, assistant conversationnel « Poser une question », cookies). Référencés avec `?v=7` dans les pages pour éviter un ancien fichier en cache.
+- `site-fixes.css` et `site.js` : ajustements et interactions (menus déroulants avec délai de fermeture et pont de survol, menu mobile, diaporama, carrousels, FAQ, widget de contact au survol et au clic avec priorité sur le bouton bleu, assistant conversationnel « Poser une question », cookies). Référencés avec `?v=8` dans les pages pour éviter un ancien fichier en cache.
 - `build_all.py` : générateur initial (crawl de capacademy.fr, téléchargement des ressources, réécriture des liens).
 - `apply_ufa.py` : post-traitement de rebranding à exécuter après `build_all.py`.
 - `check_links.py` : vérification des liens internes.
+- `inscription/wizard.js`, `inscription/sessions.js`, `build_sessions.py` : formulaire d’inscription en 5 étapes, sessions extraites du planning et générateur de ces sessions.
 - `pages-list.txt` : liste des 184 pages générées.
 - Outil d’édition interne : `admin_server.py`, `admin/`, `content_engine.py`, `apply_content.py`, `passenger_wsgi.py` (entrée WSGI o2switch) et `content/formations-overrides.json`.
 
@@ -39,6 +40,28 @@ python -m http.server 4321
 ```
 
 Puis ouvrir `http://127.0.0.1:4321/`.
+
+## Formulaire d’inscription
+
+La page `/inscription/` propose un parcours en **5 étapes** :
+
+1. **Formation et session** — choix de la formation, puis des sessions réellement planifiées (dates, lieu, modalité, places, lien vers la fiche). Le choix « Dates à convenir » reste toujours disponible ; un format peut être indiqué.
+2. **Coordonnées** — civilité, nom, prénom, e-mail, téléphone, date de naissance, ville, mode de contact préféré.
+3. **Financement et situation** — financement envisagé, situation, employeur/OPCO, aménagements éventuels, message.
+4. **Documents** — pièce d’identité, CV/diplôme, justificatif de financement et autres fichiers (plusieurs fichiers possibles). Formats acceptés : PDF, JPG, PNG, DOC, DOCX. Taille totale maximale : **10 Mo**, contrôlée avant l’envoi. Chaque fichier peut être retiré.
+5. **Vérification** — récapitulatif de toute la demande, consentement RGPD, puis envoi.
+
+La navigation est accessible au clavier, les erreurs sont affichées à côté du champ concerné et le focus est déplacé vers l’étape suivante. Le formulaire reste soumis **nativerment** (pas d’AJAX) à FormSubmit, ce qui fonctionne aussi bien sur Vercel que sur o2switch sans serveur d’application. La destination des e-mails est celle déjà configurée dans l’`action` du formulaire (`aghilles.touahri@gmail.com`) ; pensez à la vérifier si vous souhaitez recevoir les demandes sur `Ufacampus3@gmail.com`.
+
+### Mettre à jour la liste des sessions
+
+Les sessions affichées sont extraites de `planning/index.html`. Après chaque modification du planning :
+
+```bash
+python build_sessions.py
+```
+
+Cela régénère `inscription/sessions.js` (fichier statique, aucune dépendance). Les formations sans session planifiée affichent automatiquement le choix « Dates à convenir ».
 
 ## Modifier les fiches formation (outil interne)
 
@@ -77,7 +100,7 @@ Les surcharges sont stockées **hors du HTML** et réappliquées après une rég
 python build_all.py && python apply_ufa.py && python apply_content.py && python check_links.py
 ```
 
-`apply_content.py` est idempotent : un second passage ne modifie aucun fichier.
+`apply_content.py` est idempotent : un second passage ne modifie aucun fichier. `apply_ufa.py` réapplique également le formulaire d’inscription en 5 étapes depuis `content/inscription-form.html` et régénère `inscription/sessions.js` à partir du planning.
 
 ## Déploiement sur o2switch
 

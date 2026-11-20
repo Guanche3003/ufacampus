@@ -17,6 +17,8 @@ import json
 import os
 import re
 import shutil
+import subprocess
+import sys
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 SOURCE_LOGO = r"C:\Users\aghil\AppData\Local\Temp\opencode\uploads\1e27c90a-1ab9-4ee2-bca3-b6c708d7fd87\image.png"
@@ -287,10 +289,41 @@ def patch_logo_tags(s: str) -> str:
                      'class="h-16 w-auto max-w-full object-contain"')
 
 
+def patch_inscription_form(s: str) -> str:
+    """Réapplique le formulaire en 5 étapes après une régénération du site."""
+    if '<form id="inscription-form"' not in s:
+        return s
+    template_path = os.path.join(ROOT, 'content', 'inscription-form.html')
+    if not os.path.exists(template_path):
+        return s
+    formation = re.search(r'<select id="insc-formation".*?</select>', s, re.S)
+    financement = re.search(r'<select id="insc-financement".*?</select>', s, re.S)
+    if not (formation and financement):
+        return s
+    template = open(template_path, encoding='utf-8').read().strip()
+    new_form = template.replace('__FORMATION_SELECT__', formation.group(0), 1)
+    new_form = new_form.replace('__FINANCEMENT_SELECT__', financement.group(0), 1)
+    start = s.index('<form id="inscription-form"')
+    end = s.index('</form>', start) + len('</form>')
+    s = s[:start] + new_form + s[end:]
+    if '/inscription/sessions.js' not in s:
+        s = s.replace(
+            '<script src="/site.js?v=8" defer></script>',
+            '<script src="/inscription/sessions.js" defer></script>\n'
+            '<script src="/inscription/wizard.js?v=1" defer></script>\n'
+            '<script src="/site.js?v=8" defer></script>',
+            1,
+        )
+    return s
+
+
 def patch_html(path: str) -> bool:
     rel = os.path.relpath(path, ROOT).replace('\\', '/')
     s = open(path, encoding='utf-8', errors='replace').read()
     original = s
+
+    if rel == 'inscription/index.html':
+        s = patch_inscription_form(s)
 
     s = remove_banner(s)
     for old, new in REPLACEMENTS:
@@ -313,8 +346,8 @@ def patch_html(path: str) -> bool:
     s = replace_place(s)
 
     # Version des fichiers statiques : évite de servir une ancienne copie en cache.
-    s = re.sub(r'(href="/site-fixes\.css)(?:\?v=\d+)?(")', r'\1?v=7\2', s)
-    s = re.sub(r'(src="/site\.js)(?:\?v=\d+)?(")', r'\1?v=7\2', s)
+    s = re.sub(r'(href="/site-fixes\.css)(?:\?v=\d+)?(")', r'\1?v=8\2', s)
+    s = re.sub(r'(src="/site\.js)(?:\?v=\d+)?(")', r'\1?v=8\2', s)
 
     s = patch_logo_tags(s)
     s = FOOTER_PATTERN.sub(FOOTER_NEW + '</p>', s)
@@ -432,6 +465,7 @@ def main() -> None:
             if name.endswith('.html'):
                 updated += patch_html(os.path.join(dp, name))
     patch_site_js()
+    subprocess.check_call([sys.executable, os.path.join(ROOT, 'build_sessions.py')], cwd=ROOT)
     print(f'Pages HTML traitées : {updated}')
     print('Assets, manifeste, site.js et anciens PDF mis à jour.')
 

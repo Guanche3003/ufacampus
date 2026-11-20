@@ -160,3 +160,147 @@ h1, h2, h3, h4, .font-display { font-family: Poppins, "Poppins Fallback", Inter,
     max-height: calc(100vh - 170px);
   }
 }
+
+/* Assistant d’inscription en plusieurs étapes */
+.ufa-steps {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 6px;
+  margin: 0 0 20px;
+  padding: 0;
+  list-style: none;
+}
+.ufa-steps li {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 2px;
+  border-bottom: 2px solid #dde4f0;
+  color: #5a6785;
+  text-align: center;
+}
+.ufa-step-dot {
+  display: grid;
+  width: 24px;
+  height: 24px;
+  place-items: center;
+  border-radius: 50%;
+  background: #eef2f8;
+  color: #5a6785;
+  font-size: 12px;
+  font-weight: 700;
+}
+.ufa-step-label { font-size: 10px; font-weight: 600; line-height: 1.25; }
+.ufa-steps li.is-done { border-bottom-color: #16a34a; color: #15803d; }
+.ufa-steps li.is-done .ufa-step-dot { background: #dcfce7; color: #15803d; }
+.ufa-steps li.is-current { border-bottom-color: #1a5fd4; color: #1a5fd4; }
+.ufa-steps li.is-current .ufa-step-dot { background: #1a5fd4; color: #fff; }
+.ufa-step-error {
+  border: 1px solid #fecaca;
+  border-radius: 10px;
+  background: #fef2f2;
+  padding: 10px 12px;
+  color: #b42318;
+  font-size: 12px;
+  font-weight: 600;
+}
+.ufa-error { margin-top: 4px; color: #b42318; font-size: 11px; font-weight: 600; }
+.ufa-hint { margin-bottom: 8px; color: #5a6785; font-size: 11px; }
+.ufa-sessions {
+  max-height: 264px;
+  overflow-y: auto;
+  border: 1px solid #dde4f0;
+  border-radius: 10px;
+}
+.ufa-session-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 12px;
+  border-bottom: 1px solid #eef2f8;
+  cursor: pointer;
+}
+.ufa-session-option:last-child { border-bottom: 0; }
+.ufa-session-option:hover { background: #f7faff; }
+.ufa-session-option:has(input:checked) { background: #eff6ff; }
+.ufa-session-option input { margin-top: 2px; accent-color: #1a5fd4; }
+.ufa-session-body { display: flex; min-width: 0; flex-direction: column; gap: 2px; }
+.ufa-session-date { color: #0d1b3e; font-size: 12px; font-weight: 700; }
+.ufa-session-name { color: #1a5fd4; font-size: 12px; font-weight: 600; }
+.ufa-session-meta { color: #5a6785; font-size: 11px; }
+.ufa-session-link { color: #1a5fd4; font-size: 11px; font-weight: 600; text-decoration: underline; }
+.ufa-session-fallback .ufa-session-body { color: #0d1b3e; font-size: 12px; font-weight: 600; }
+.ufa-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid #eef2f8;
+}
+.ufa-back {
+  border: 0;
+  background: none;
+  padding: 8px 0;
+  color: #1a5fd4;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.ufa-back:hover { text-decoration: underline; }
+.ufa-file { display: block; width: 100%; font-size: 12px; }
+.ufa-file::file-selector-button {
+  margin-right: 10px;
+  padding: 8px 12px;
+  border: 1px solid #cfe0ff;
+  border-radius: 8px;
+  background: #f2f7ff;
+  color: #1a5fd4;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.ufa-file-meta { margin-top: 4px; color: #5a6785; font-size: 11px; overflow-wrap: anywhere; }
+.ufa-files-total {
+  border-radius: 8px;
+  background: #f2f7ff;
+  padding: 8px 10px;
+  color: #1a5fd4;
+  font-size: 11px;
+  font-weight: 600;
+}
+.ufa-file-clear {
+  margin-top: 6px;
+  border: 0;
+  background: none;
+  padding: 0;
+  color: #b42318;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.ufa-file-clear:hover { text-decoration: underline; }
+.ufa-recap { overflow: hidden; border: 1px solid #dde4f0; border-radius: 10px; }
+.ufa-recap-row {
+  display: grid;
+  grid-template-columns: minmax(110px, 35%) 1fr;
+  gap: 10px;
+  padding: 9px 12px;
+  border-bottom: 1px solid #eef2f8;
+  font-size: 12px;
+}
+.ufa-recap-row:last-child { border-bottom: 0; }
+.ufa-recap-row:nth-child(odd) { background: #f8fafc; }
+.ufa-recap-row dt { color: #0d1b3e; font-weight: 700; }
+.ufa-recap-row dd { margin: 0; color: #5a6785; overflow-wrap: anywhere; }
+.ufa-step h3:focus { outline: 2px solid #1a5fd4; outline-offset: 3px; }
+
+@media (max-width: 640px) {
+  .ufa-steps li .ufa-step-label { font-size: 9px; }
+  .ufa-recap-row { grid-template-columns: 1fr; gap: 2px; }
+  .ufa-actions .btn-primary { width: 100%; justify-content: center; }
+}

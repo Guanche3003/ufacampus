@@ -1,0 +1,244 @@
+<form id="inscription-form" action="https://formsubmit.co/aghilles.touahri@gmail.com" method="POST" enctype="multipart/form-data" novalidate class="ufa-wizard space-y-5">
+  <input type="hidden" name="_subject" value="Nouvelle inscription — UFA Campus" />
+  <input type="hidden" name="_captcha" value="false" />
+  <input type="hidden" name="_template" value="table" />
+  <input type="hidden" name="_next" value="https://ufacampus.vercel.app/inscription/?success=true" />
+  <input type="hidden" name="session_details" id="insc-session-details" />
+  <input type="hidden" name="origine" value="Formulaire inscription en 5 étapes" />
+
+  <div id="form-feedback" class="hidden rounded-xl border border-green-200 bg-green-50 p-4 text-green-800 text-sm font-medium" role="status">
+    ✅ <strong>Demande envoyée avec succès !</strong> Notre équipe UFA Campus a bien reçu votre demande d'inscription et vous recontactera sous 24h ouvrées.
+  </div>
+
+  <ol class="ufa-steps" aria-label="Progression de l’inscription">
+    <li data-step-indicator="1" aria-current="step"><span class="ufa-step-dot" aria-hidden="true">1</span><span class="ufa-step-label">Formation</span></li>
+    <li data-step-indicator="2"><span class="ufa-step-dot" aria-hidden="true">2</span><span class="ufa-step-label">Coordonnées</span></li>
+    <li data-step-indicator="3"><span class="ufa-step-dot" aria-hidden="true">3</span><span class="ufa-step-label">Financement</span></li>
+    <li data-step-indicator="4"><span class="ufa-step-dot" aria-hidden="true">4</span><span class="ufa-step-label">Documents</span></li>
+    <li data-step-indicator="5"><span class="ufa-step-dot" aria-hidden="true">5</span><span class="ufa-step-label">Vérification</span></li>
+  </ol>
+
+  <p id="ufa-step-error" class="ufa-step-error hidden" role="alert"></p>
+
+  <!-- Étape 1 : formation et session -->
+  <section class="ufa-step" data-step="1" aria-labelledby="insc-step-1-title">
+    <h3 id="insc-step-1-title" tabindex="-1" class="font-display text-base font-bold text-navy">1. Votre formation</h3>
+    <p class="mt-0.5 text-[12px] text-muted">Choisissez la formation qui vous intéresse et, si vous le savez déjà, la session souhaitée.</p>
+
+    <div class="mt-4 space-y-4">
+      <div>
+        <label for="insc-formation" class="!mb-1 block text-[12px] font-semibold text-navy">Formation souhaitée<span class="text-brand"> *</span><span class="sr-only"> (obligatoire)</span></label>
+        __FORMATION_SELECT__
+        <p id="err-formation" class="ufa-error hidden"></p>
+      </div>
+
+      <fieldset>
+        <legend class="!mb-1 block text-[12px] font-semibold text-navy">Session souhaitée <span class="font-normal text-muted">(facultatif)</span></legend>
+        <p id="insc-session-hint" class="ufa-hint">Sélectionnez une formation pour afficher ses sessions.</p>
+        <div id="insc-sessions" class="ufa-sessions"></div>
+        <p id="err-session" class="ufa-error hidden"></p>
+      </fieldset>
+
+      <div>
+        <label for="insc-modalite" class="!mb-1 block text-[12px] font-semibold text-navy">Format souhaité <span class="font-normal text-muted">(facultatif)</span></label>
+        <select id="insc-modalite" name="modalite" class="w-full rounded-lg border border-[color:var(--border-field)] bg-surface px-3.5 py-2.5 text-base text-navy outline-none transition-colors focus:border-brand focus:ring-2 focus:ring-brand/20 sm:text-sm">
+          <option value="">Sans préférence</option>
+          <option value="Présentiel">Présentiel</option>
+          <option value="À distance">À distance</option>
+          <option value="Mixte">Mixte</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="ufa-actions">
+      <button type="button" class="btn-primary ufa-next" data-next="2">Continuer vers vos coordonnées <span aria-hidden="true">→</span></button>
+    </div>
+  </section>
+
+  <!-- Étape 2 : coordonnées -->
+  <section class="ufa-step" data-step="2" aria-labelledby="insc-step-2-title">
+    <h3 id="insc-step-2-title" tabindex="-1" class="font-display text-base font-bold text-navy">2. Vos coordonnées</h3>
+    <p class="mt-0.5 text-[12px] text-muted">Les champs marqués d’un <span class="text-brand">*</span> sont obligatoires.</p>
+
+    <div class="mt-4 space-y-3">
+      <div>
+        <label for="insc-genre" class="!mb-1 block text-[12px] font-semibold text-navy">Civilité<span class="text-brand"> *</span><span class="sr-only"> (obligatoire)</span></label>
+        <select id="insc-genre" name="civilite" required autocomplete="honorific-prefix" aria-describedby="err-civilite" class="w-full rounded-lg border border-[color:var(--border-field)] bg-surface px-3.5 py-2.5 text-base text-navy outline-none transition-colors focus:border-brand focus:ring-2 focus:ring-brand/20 sm:text-sm">
+          <option value="">Choisir…</option>
+          <option value="Monsieur">Monsieur</option>
+          <option value="Madame">Madame</option>
+        </select>
+        <p id="err-civilite" class="ufa-error hidden"></p>
+      </div>
+
+      <div class="grid !grid-cols-1 !gap-3 sm:!grid-cols-2">
+        <div>
+          <label for="insc-prenom" class="!mb-1 block text-[12px] font-semibold text-navy">Prénom<span class="text-brand"> *</span><span class="sr-only"> (obligatoire)</span></label>
+          <input id="insc-prenom" name="prenom" required autocomplete="given-name" aria-describedby="err-prenom" class="w-full rounded-lg border border-[color:var(--border-field)] bg-surface px-3.5 py-2.5 text-base text-navy outline-none transition-colors focus:border-brand focus:ring-2 focus:ring-brand/20 sm:text-sm" placeholder="Ex : Jean" />
+          <p id="err-prenom" class="ufa-error hidden"></p>
+        </div>
+        <div>
+          <label for="insc-nom" class="!mb-1 block text-[12px] font-semibold text-navy">Nom<span class="text-brand"> *</span><span class="sr-only"> (obligatoire)</span></label>
+          <input id="insc-nom" name="nom" required autocomplete="family-name" aria-describedby="err-nom" class="w-full rounded-lg border border-[color:var(--border-field)] bg-surface px-3.5 py-2.5 text-base text-navy outline-none transition-colors focus:border-brand focus:ring-2 focus:ring-brand/20 sm:text-sm" placeholder="Ex : Dupont" />
+          <p id="err-nom" class="ufa-error hidden"></p>
+        </div>
+      </div>
+
+      <div class="grid !grid-cols-1 !gap-3 sm:!grid-cols-2">
+        <div>
+          <label for="insc-email" class="!mb-1 block text-[12px] font-semibold text-navy">E-mail<span class="text-brand"> *</span><span class="sr-only"> (obligatoire)</span></label>
+          <input id="insc-email" name="email" type="email" required autocomplete="email" aria-describedby="err-email" class="w-full rounded-lg border border-[color:var(--border-field)] bg-surface px-3.5 py-2.5 text-base text-navy outline-none transition-colors focus:border-brand focus:ring-2 focus:ring-brand/20 sm:text-sm" placeholder="nom@exemple.com" />
+          <p id="err-email" class="ufa-error hidden"></p>
+        </div>
+        <div>
+          <label for="insc-tel" class="!mb-1 block text-[12px] font-semibold text-navy">Téléphone<span class="text-brand"> *</span><span class="sr-only"> (obligatoire)</span></label>
+          <input id="insc-tel" name="telephone" type="tel" required autocomplete="tel" aria-describedby="err-telephone" class="w-full rounded-lg border border-[color:var(--border-field)] bg-surface px-3.5 py-2.5 text-base text-navy outline-none transition-colors focus:border-brand focus:ring-2 focus:ring-brand/20 sm:text-sm" placeholder="06 12 34 56 78" />
+          <p id="err-telephone" class="ufa-error hidden"></p>
+        </div>
+      </div>
+
+      <div class="grid !grid-cols-1 !gap-3 sm:!grid-cols-2">
+        <div>
+          <label for="insc-naissance" class="!mb-1 block text-[12px] font-semibold text-navy">Date de naissance <span class="font-normal text-muted">(facultatif)</span></label>
+          <input id="insc-naissance" name="date_naissance" type="date" class="w-full rounded-lg border border-[color:var(--border-field)] bg-surface px-3.5 py-2.5 text-base text-navy outline-none transition-colors focus:border-brand focus:ring-2 focus:ring-brand/20 sm:text-sm" />
+        </div>
+        <div>
+          <label for="insc-ville" class="!mb-1 block text-[12px] font-semibold text-navy">Ville de résidence <span class="font-normal text-muted">(facultatif)</span></label>
+          <input id="insc-ville" name="ville" autocomplete="address-level2" class="w-full rounded-lg border border-[color:var(--border-field)] bg-surface px-3.5 py-2.5 text-base text-navy outline-none transition-colors focus:border-brand focus:ring-2 focus:ring-brand/20 sm:text-sm" placeholder="Ex : Neuilly-Plaisance" />
+        </div>
+      </div>
+
+      <div>
+        <label for="insc-contact" class="!mb-1 block text-[12px] font-semibold text-navy">Mode de contact préféré <span class="font-normal text-muted">(facultatif)</span></label>
+        <select id="insc-contact" name="contact_prefere" class="w-full rounded-lg border border-[color:var(--border-field)] bg-surface px-3.5 py-2.5 text-base text-navy outline-none transition-colors focus:border-brand focus:ring-2 focus:ring-brand/20 sm:text-sm">
+          <option value="">Sans préférence</option>
+          <option value="Téléphone">Téléphone</option>
+          <option value="E-mail">E-mail</option>
+          <option value="WhatsApp">WhatsApp</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="ufa-actions">
+      <button type="button" class="ufa-back" data-back="1">← Retour</button>
+      <button type="button" class="btn-primary ufa-next" data-next="3">Continuer vers le financement <span aria-hidden="true">→</span></button>
+    </div>
+  </section>
+
+  <!-- Étape 3 : financement et situation -->
+  <section class="ufa-step" data-step="3" aria-labelledby="insc-step-3-title">
+    <h3 id="insc-step-3-title" tabindex="-1" class="font-display text-base font-bold text-navy">3. Financement et situation</h3>
+    <p class="mt-0.5 text-[12px] text-muted">Ces informations nous aident à vérifier les dispositifs auxquels vous pouvez prétendre.</p>
+
+    <div class="mt-4 space-y-3">
+      <div>
+        <label for="insc-financement" class="!mb-1 block text-[12px] font-semibold text-navy">Financement envisagé<span class="text-brand"> *</span><span class="sr-only"> (obligatoire)</span></label>
+        __FINANCEMENT_SELECT__
+        <p id="err-financement" class="ufa-error hidden"></p>
+      </div>
+
+      <div>
+        <label for="insc-situation" class="!mb-1 block text-[12px] font-semibold text-navy">Votre situation actuelle<span class="text-brand"> *</span><span class="sr-only"> (obligatoire)</span></label>
+        <select id="insc-situation" name="situation" required aria-describedby="err-situation" class="w-full rounded-lg border border-[color:var(--border-field)] bg-surface px-3.5 py-2.5 text-base text-navy outline-none transition-colors focus:border-brand focus:ring-2 focus:ring-brand/20 sm:text-sm">
+          <option value="">Sélectionnez votre situation…</option>
+          <option value="Salarié(e)">Salarié(e)</option>
+          <option value="Demandeur d’emploi">Demandeur d’emploi</option>
+          <option value="Indépendant(e) / auto-entrepreneur">Indépendant(e) / auto-entrepreneur</option>
+          <option value="Étudiant(e)">Étudiant(e)</option>
+          <option value="En reconversion professionnelle">En reconversion professionnelle</option>
+          <option value="Autre">Autre</option>
+        </select>
+        <p id="err-situation" class="ufa-error hidden"></p>
+      </div>
+
+      <div>
+        <label for="insc-employeur" class="!mb-1 block text-[12px] font-semibold text-navy">Employeur ou OPCO <span class="font-normal text-muted">(si concerné)</span></label>
+        <input id="insc-employeur" name="employeur" class="w-full rounded-lg border border-[color:var(--border-field)] bg-surface px-3.5 py-2.5 text-base text-navy outline-none transition-colors focus:border-brand focus:ring-2 focus:ring-brand/20 sm:text-sm" placeholder="Nom de l’entreprise ou de l’OPCO" />
+      </div>
+
+      <label class="flex items-start gap-2 text-[12px] text-body">
+        <input id="insc-amenagement" type="checkbox" class="mt-0.5 h-4 w-4 rounded border-line text-brand focus:ring-brand" />
+        <span>Je souhaite échanger sur des aménagements liés à une situation de handicap.</span>
+      </label>
+      <div id="insc-amenagement-details" hidden>
+        <label for="insc-amenagement-texte" class="!mb-1 block text-[12px] font-semibold text-navy">Besoins spécifiques <span class="font-normal text-muted">(facultatif)</span></label>
+        <textarea id="insc-amenagement-texte" name="amenagements" rows="2" class="w-full rounded-lg border border-[color:var(--border-field)] bg-surface px-3.5 py-2.5 text-base text-navy outline-none transition-colors focus:border-brand focus:ring-2 focus:ring-brand/20 sm:text-sm" placeholder="Précisez vos besoins (supports, rythme, accessibilité…)"></textarea>
+      </div>
+
+      <div>
+        <label for="insc-message" class="!mb-1 block text-[12px] font-semibold text-navy">Précisions ou questions <span class="font-normal text-muted">(facultatif)</span></label>
+        <textarea id="insc-message" name="message" rows="3" class="w-full rounded-lg border border-[color:var(--border-field)] bg-surface px-3.5 py-2.5 text-base text-navy outline-none transition-colors focus:border-brand focus:ring-2 focus:ring-brand/20 sm:text-sm" placeholder="Dates souhaitées, projet professionnel, questions sur le déroulement…"></textarea>
+      </div>
+    </div>
+
+    <div class="ufa-actions">
+      <button type="button" class="ufa-back" data-back="2">← Retour</button>
+      <button type="button" class="btn-primary ufa-next" data-next="4">Continuer vers les documents <span aria-hidden="true">→</span></button>
+    </div>
+  </section>
+
+  <!-- Étape 4 : documents -->
+  <section class="ufa-step" data-step="4" aria-labelledby="insc-step-4-title">
+    <h3 id="insc-step-4-title" tabindex="-1" class="font-display text-base font-bold text-navy">4. Vos documents</h3>
+    <p class="mt-0.5 text-[12px] text-muted">Ajoutez les pièces utiles à l’étude de votre dossier. Vous pourrez en transmettre d’autres plus tard.</p>
+
+    <div class="mt-4 space-y-3">
+      <div class="ufa-file-row">
+        <label for="doc-identite" class="!mb-1 block text-[12px] font-semibold text-navy">Pièce d’identité <span class="font-normal text-muted">(recommandé)</span></label>
+        <input id="doc-identite" type="file" name="piece_identite" accept=".pdf,.jpg,.jpeg,.png" data-label="Pièce d’identité" class="ufa-file" aria-describedby="doc-identite-meta" />
+        <p id="doc-identite-meta" class="ufa-file-meta">PDF, JPG ou PNG.</p>
+      </div>
+
+      <div class="ufa-file-row">
+        <label for="doc-cv" class="!mb-1 block text-[12px] font-semibold text-navy">CV ou dernier diplôme <span class="font-normal text-muted">(facultatif)</span></label>
+        <input id="doc-cv" type="file" name="cv_diplome" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" data-label="CV ou diplôme" class="ufa-file" aria-describedby="doc-cv-meta" />
+        <p id="doc-cv-meta" class="ufa-file-meta">PDF, Word, JPG ou PNG.</p>
+      </div>
+
+      <div class="ufa-file-row">
+        <label for="doc-financement" class="!mb-1 block text-[12px] font-semibold text-navy">Justificatif de financement <span class="font-normal text-muted">(facultatif)</span></label>
+        <input id="doc-financement" type="file" name="justificatif_financement" accept=".pdf,.jpg,.jpeg,.png" data-label="Justificatif de financement" class="ufa-file" aria-describedby="doc-financement-meta" />
+        <p id="doc-financement-meta" class="ufa-file-meta">CPF, France Travail, OPCO ou employeur.</p>
+      </div>
+
+      <div class="ufa-file-row">
+        <label for="doc-autres" class="!mb-1 block text-[12px] font-semibold text-navy">Autres documents <span class="font-normal text-muted">(facultatif, plusieurs fichiers possibles)</span></label>
+        <input id="doc-autres" type="file" name="autres_documents" multiple accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" data-label="Autres documents" class="ufa-file" aria-describedby="doc-autres-meta" />
+        <p id="doc-autres-meta" class="ufa-file-meta">Tout document utile à votre demande.</p>
+      </div>
+
+      <p id="ufa-files-total" class="ufa-files-total" role="status">Aucun fichier sélectionné.</p>
+      <p id="err-documents" class="ufa-error hidden"></p>
+      <p class="text-[11px] text-muted">Taille totale maximale : <strong>10 Mo</strong>. Vos documents sont transmis par e-mail à l’équipe UFA Campus et utilisés uniquement pour l’étude de votre inscription.</p>
+    </div>
+
+    <div class="ufa-actions">
+      <button type="button" class="ufa-back" data-back="3">← Retour</button>
+      <button type="button" class="btn-primary ufa-next" data-next="5">Vérifier ma demande <span aria-hidden="true">→</span></button>
+    </div>
+  </section>
+
+  <!-- Étape 5 : récapitulatif -->
+  <section class="ufa-step" data-step="5" aria-labelledby="insc-step-5-title">
+    <h3 id="insc-step-5-title" tabindex="-1" class="font-display text-base font-bold text-navy">5. Vérification et envoi</h3>
+    <p class="mt-0.5 text-[12px] text-muted">Relisez votre demande avant de l’envoyer. Vous pouvez revenir sur chaque étape avec le bouton « Retour ».</p>
+
+    <dl id="insc-recap" class="ufa-recap mt-4"></dl>
+
+    <label class="mt-4 flex items-start gap-2 text-[12px] text-body" for="insc-consentement">
+      <input id="insc-consentement" type="checkbox" name="consentement" value="J’accepte d’être contacté(e) par UFA Campus" required aria-describedby="err-consentement" class="mt-0.5 h-4 w-4 rounded border-line text-brand focus:ring-brand" />
+      <span>J’accepte d’être contacté(e) par l’équipe UFA Campus dans le cadre de ma demande d’inscription. Mes données sont traitées conformément à la <a href="/politique-confidentialite/" class="font-semibold text-brand underline">politique de confidentialité</a>.<span class="text-brand"> *</span></span>
+    </label>
+    <p id="err-consentement" class="ufa-error hidden"></p>
+
+    <div class="ufa-actions">
+      <button type="button" class="ufa-back" data-back="4">← Modifier mes informations</button>
+      <button type="submit" id="btn-submit-inscription" class="btn-primary justify-center text-center font-semibold">Envoyer ma demande d’inscription <span aria-hidden="true">→</span></button>
+    </div>
+
+    <p class="flex items-center justify-center gap-1.5 pt-1 text-[11px] text-muted">
+      <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield-check text-brand" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"></path><path d="m9 12 2 2 4-4"></path></svg>
+      Organisme certifié Qualiopi — réponse sous 24h ouvrées.
+    </p>
+  </section>
+</form>
