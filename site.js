@@ -534,5 +534,56 @@
         document.body.appendChild(bar);
       });
     });
+    /* Gestion des formulaires de contact & inscription (FormSubmit) */
+    if (window.location.search.indexOf('success=true') !== -1) {
+      const fb = document.getElementById('form-feedback') || document.getElementById('contact-feedback');
+      if (fb) {
+        fb.classList.remove('hidden');
+        fb.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+
+    document.querySelectorAll('form[action*="formsubmit.co"]').forEach(form => {
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        const btn = form.querySelector('button[type="submit"]');
+        const origText = btn ? btn.innerHTML : '';
+        if (btn) {
+          btn.disabled = true;
+          btn.innerHTML = 'Envoi en cours…';
+        }
+
+        const actionUrl = form.action.replace('formsubmit.co/', 'formsubmit.co/ajax/');
+        const data = new FormData(form);
+
+        fetch(actionUrl, {
+          method: 'POST',
+          body: data,
+          headers: { 'Accept': 'application/json' }
+        })
+        .then(res => {
+          if (!res.ok) throw new Error('Erreur de transmission');
+          return res.json();
+        })
+        .then(() => {
+          const fb = form.querySelector('#form-feedback') || form.querySelector('#contact-feedback');
+          if (fb) {
+            fb.classList.remove('hidden');
+            fb.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          } else {
+            alert('Votre demande a bien été envoyée !');
+          }
+          form.reset();
+          if (btn) {
+            btn.disabled = false;
+            btn.innerHTML = 'Demande envoyée ✓';
+            setTimeout(() => { btn.innerHTML = origText; }, 4000);
+          }
+        })
+        .catch(() => {
+          form.submit();
+        });
+      });
+    });
   });
 })();
