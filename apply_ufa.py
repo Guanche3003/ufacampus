@@ -48,6 +48,98 @@ LEGAL = {
 BANNER_START = '<div class="relative bg-gradient-to-r from-navy to-brand text-white print:hidden">'
 BANNER_END = '</div><header'
 
+# Section « Avis & témoignages » de la page d’accueil : avis Google réels,
+# récupérés depuis la fiche de l’établissement à Neuilly-Plaisance.
+GOOGLE_REVIEWS_SOURCE = 'https://maps.app.goo.gl/PsQ2GpyVXRMJdQ9H9'
+STAR_SVG = (
+    '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" '
+    'stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" '
+    'class="lucide lucide-star fill-amber-400 text-amber-400" aria-hidden="true">'
+    '<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>'
+    '</svg>'
+)
+GOOGLE_ICON = (
+    '<svg viewBox="0 0 24 24" width="13" height="13" aria-hidden="true">'
+    '<path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.5a5.6 5.6 0 0 1-2.4 3.7v3h3.9c2.3-2.1 3.5-5.2 3.5-8.9Z"></path>'
+    '<path fill="#34A853" d="M12 24c3.2 0 6-1.1 8-3l-3.9-3c-1.1.7-2.5 1.2-4.1 1.2-3.1 0-5.8-2.1-6.7-5H1.3v3.1A12 12 0 0 0 12 24Z"></path>'
+    '<path fill="#FBBC05" d="M5.3 14.2a7.2 7.2 0 0 1 0-4.6V6.5H1.3a12 12 0 0 0 0 10.8l4-3.1Z"></path>'
+    '<path fill="#EA4335" d="M12 4.8c1.8 0 3.3.6 4.6 1.8l3.4-3.4A12 12 0 0 0 1.3 6.5l4 3.1c.9-2.9 3.6-4.8 6.7-4.8Z"></path>'
+    '</svg>'
+)
+EXTERNAL_ICON = (
+    '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" '
+    'stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" '
+    'class="lucide lucide-external-link" aria-hidden="true">'
+    '<path d="M15 3h6v6"></path><path d="M10 14 21 3"></path>'
+    '<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>'
+    '</svg>'
+)
+
+
+def _google_review_card(author: str, period: str, text: str, url: str) -> str:
+    return (
+        '<figure class="avis-figure flex h-full flex-col rounded-2xl border border-line bg-white p-6 '
+        'shadow-[0_1px_2px_rgba(13,27,62,0.04)] sm:p-8">'
+        '<div class="mb-3 flex items-center justify-between">'
+        '<span class="inline-flex items-center" aria-label="5 sur 5">' + STAR_SVG * 5 + '</span>'
+        '<span class="inline-flex items-center gap-1 text-[11px] font-semibold text-muted">'
+        + GOOGLE_ICON + 'Google</span></div>'
+        '<blockquote class="flex-1 text-[15px] leading-relaxed text-body">' + text + '</blockquote>'
+        '<figcaption class="mt-4 text-[13px] font-semibold text-navy">' + author
+        + '<span class="font-normal text-muted"> · ' + period + '</span></figcaption>'
+        '<a target="_blank" rel="noopener noreferrer" href="' + url + '" '
+        'class="mt-4 inline-flex items-center gap-1 text-[12px] font-semibold text-brand hover:underline">'
+        'Lire l’avis sur Google' + EXTERNAL_ICON + '<span class="sr-only"> (nouvel onglet)</span></a>'
+        '</figure>'
+    )
+
+
+GOOGLE_REVIEWS_SECTION = (
+    '<section data-ufa-reviews="google-2026" class="container-page py-16">'
+    '<div class="mx-auto max-w-3xl text-center">'
+    '<span class="section-tag">Avis &amp; témoignages</span>'
+    '<h2 class="mt-3 font-display text-2xl font-extrabold text-navy sm:text-3xl">Ils nous ont fait confiance</h2>'
+    '<p class="mt-3 text-[13px] leading-relaxed text-muted">Avis authentiques publiés sur notre fiche Google, repris à l’identique.</p>'
+    '</div>'
+    '<div class="mx-auto mt-8 flex max-w-md flex-col items-center gap-2 rounded-2xl border border-gold/30 bg-gold-soft px-6 py-5 text-center">'
+    '<p class="text-[13px] text-muted">Vous avez suivi une formation chez nous&nbsp;?</p>'
+    '<a target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-[14px] font-semibold text-brand hover:underline" href="'
+    + GOOGLE_REVIEWS_SOURCE + '">Laissez-nous un avis sur Google' + EXTERNAL_ICON
+    + '<span class="sr-only"> (nouvel onglet)</span></a></div>'
+    '<div class="mx-auto mt-8 flex max-w-2xl flex-wrap items-center justify-center gap-3">'
+    '<span class="inline-flex items-center" aria-label="Note moyenne 5 sur 5">' + STAR_SVG * 5 + '</span>'
+    '<a target="_blank" rel="noopener noreferrer" href="' + GOOGLE_REVIEWS_SOURCE
+    + '" class="inline-flex items-center gap-1.5 text-[13px] font-semibold text-navy hover:underline">'
+    '<span class="font-bold">5/5</span> · 922 avis sur Google' + EXTERNAL_ICON
+    + '<span class="sr-only"> (nouvel onglet)</span></a></div>'
+    '<div class="mx-auto mt-8 grid max-w-6xl grid-cols-1 gap-5 md:grid-cols-3">'
+    + _google_review_card(
+        'massinissa snacel',
+        'Visité en octobre 2026',
+        'Très bonne centre de formation les formateurs sont professionnelles il prennent le temp d’expliquer les choses là formation et intéressant et permet d’acquérir de bonnes connaissances dans le domaine de la sécurité incendie. Un centre de formation très accueillant avec une équipe très aimable je recommande vivement ce centre',
+        'https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2swd1FtNXhMVVY1YmpSWE5qTmZVVVYwY0hCWmIyYxAB!2m1!1s0x0:0x5962af984332eaad!3m1!1s2@1:CAIQACodChtycF9oOk0wQm5xLUV5bjRXNjNfUUV0cHBZb2c%7C%7C?hl=fr',
+    )
+    + _google_review_card(
+        'Céline HEITZMANN',
+        'Visité en octobre 2026',
+        'Formation TFP/APS :<br>Équipe très agréable le formateur que j’ai eu était très patient et expliquait très bien ce qui a pousser la motivation afin de réussir.<br>Un grand merci à tous.',
+        'https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT21veU4zaHJkbmRuZGpOSGJrWkdkelZJTnpCZlVuYxAB!2m1!1s0x0:0x5962af984332eaad!3m1!1s2@1:CAIQACodChtycF9oOmoyN3hrdndndjNHbkZGdzVINzBfUnc%7C%7C?hl=fr',
+    )
+    + _google_review_card(
+        'abdessami abdelhai',
+        'Visité en juillet 2026',
+        'Excellente école de formation en sécurité ! Une équipe professionnelle, à l’écoute et très compétente. La formation est de qualité, enrichissante et parfaitement encadrée. Je recommande vivement cette école à toute personne souhaitant se former dans le domaine de la sécurité. Une expérience très satisfaisante !',
+        'https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2xnemNtaFFPVWxzTm0xbldIZFdka0l6WDBKMldXYxAB!2m1!1s0x0:0x5962af984332eaad!3m1!1s2@1:CAIQACodChtycF9oOlgzcmhQOUlsNm1nWHdWdkIzX0J2WWc%7C%7C?hl=fr',
+    )
+    + '</div>'
+    '</section>'
+)
+
+GOOGLE_REVIEWS_START = (
+    '<section class="container-page py-16"><div class="mx-auto max-w-3xl text-center">'
+    '<span class="section-tag">Avis &amp; témoignages</span>'
+)
+
 REPLACEMENTS = [
     # Identité principale.
     ("CAP COMPÉTENCES ACADEMY", "UFA CAMPUS"),
@@ -317,6 +409,19 @@ def patch_inscription_form(s: str) -> str:
     return s
 
 
+def patch_google_reviews(s: str) -> str:
+    """Remplace le carrousel statique par de vrais avis Google."""
+    if 'data-ufa-reviews="google-2026"' in s:
+        return s
+    i = s.find(GOOGLE_REVIEWS_START)
+    if i < 0:
+        return s
+    j = s.find('</section>', i + len(GOOGLE_REVIEWS_START))
+    if j < 0:
+        return s
+    return s[:i] + GOOGLE_REVIEWS_SECTION + s[j + len('</section>'):]
+
+
 def patch_html(path: str) -> bool:
     rel = os.path.relpath(path, ROOT).replace('\\', '/')
     s = open(path, encoding='utf-8', errors='replace').read()
@@ -324,6 +429,8 @@ def patch_html(path: str) -> bool:
 
     if rel == 'inscription/index.html':
         s = patch_inscription_form(s)
+    if rel == 'index.html':
+        s = patch_google_reviews(s)
 
     s = remove_banner(s)
     for old, new in REPLACEMENTS:

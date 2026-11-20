@@ -11,7 +11,7 @@ Reproduction statique de **184 pages** de capacademy.fr, avec l’identité **UF
 - `manifest.webmanifest` : manifeste PWA local au nom de UFA Campus.
 - `site-fixes.css` et `site.js` : ajustements et interactions (menus déroulants avec délai de fermeture et pont de survol, menu mobile, diaporama, carrousels, FAQ, widget de contact au survol et au clic avec priorité sur le bouton bleu, assistant conversationnel « Poser une question », cookies). Référencés avec `?v=8` dans les pages pour éviter un ancien fichier en cache.
 - `build_all.py` : générateur initial (crawl de capacademy.fr, téléchargement des ressources, réécriture des liens).
-- `apply_ufa.py` : post-traitement de rebranding à exécuter après `build_all.py`.
+- `apply_ufa.py` : post-traitement de rebranding à exécuter après `build_all.py` ; réapplique aussi la section « Avis & témoignages » avec de vrais avis Google.
 - `check_links.py` : vérification des liens internes.
 - `inscription/wizard.js`, `inscription/sessions.js`, `build_sessions.py` : formulaire d’inscription en 5 étapes, sessions extraites du planning et générateur de ces sessions.
 - `pages-list.txt` : liste des 184 pages générées.
