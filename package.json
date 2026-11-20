@@ -1,0 +1,12 @@
+{
+  "name": "ufa-campus",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Site statique UFA Campus",
+  "scripts": {
+    "dev": "python -m http.server 4321",
+    "admin": "python admin_server.py",
+    "build": "echo \"Build skipped: site is already static HTML\"",
+    "start": "python -m http.server 4321"
+  }
+}

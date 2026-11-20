@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Administration des formations — UFA Campus</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">UFA</span>
+      <div>
+        <strong>UFA Campus</strong>
+        <span>Administration des formations</span>
+      </div>
+    </div>
+    <div class="topbar-actions">
+      <span class="counter" id="counter">Chargement…</span>
+      <button type="button" class="btn btn-primary" id="apply">Appliquer au site</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <aside class="sidebar">
+      <label class="search-wrap">
+        <span aria-hidden="true">⌕</span>
+        <input type="search" id="search" placeholder="Rechercher une formation…" autocomplete="off">
+      </label>
+      <div class="filters" role="group" aria-label="Filtrer les fiches">
+        <button type="button" class="chip active" data-filter="all">Toutes</button>
+        <button type="button" class="chip" data-filter="Catalogue">Catalogue</button>
+        <button type="button" class="chip" data-filter="Par ville">Par ville</button>
+        <button type="button" class="chip" data-filter="modified">Modifiées</button>
+      </div>
+      <div class="list" id="list" aria-label="Liste des formations"></div>
+    </aside>
+
+    <section class="editor" aria-live="polite">
+      <div class="empty" id="empty">
+        <div class="empty-icon">✎</div>
+        <h2>Choisissez une formation</h2>
+        <p>Sélectionnez une fiche dans la liste pour modifier son titre, ses descriptions ou ses dates.</p>
+      </div>
+
+      <div class="form-wrap" id="formWrap" hidden>
+        <div class="form-head">
+          <div>
+            <p class="eyebrow" id="formCategory"></p>
+            <h2 id="formTitle"></h2>
+            <p class="path" id="formPath"></p>
+          </div>
+          <span class="badge" id="formBadge" hidden>Modifiée</span>
+        </div>
+        <form id="form">
+          <div id="fields" class="fields"></div>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+            <button type="button" class="btn btn-ghost" id="reset">Réinitialiser la fiche</button>
+          </div>
+          <p class="note">L'enregistrement met à jour le fichier de données. Cliquez sur « Appliquer au site » pour publier les changements sur les pages HTML.</p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+  <script src="app.js"></script>
+</body>
+</html>
